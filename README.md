@@ -98,11 +98,7 @@ Thanks to [expressjs/cors#configuring-cors](https://github.com/expressjs/cors#co
 ```php
 $server = new Server(new MiddlewareRunner([
     new CorsMiddleware([
-        'allow_origin'      => [
-            'http://www.my-website.de',
-            'https://www.my-website.de',
-            'http://www.my-website.de:8443',
-        ],
+        'response_code' => 200,
     ]),
 ]));
 ```
