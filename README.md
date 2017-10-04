@@ -78,22 +78,17 @@ $server = new Server(new MiddlewareRunner([
 $server = new Server(new MiddlewareRunner([
     new CorsMiddleware([
         'allow_origin'          => [],
-        'allow_origin_callback' => function(ParsedUrlInterface $parsedUrl) {
-            $remoteHostName = $parsedUrl->getHost();
-            $allowedTopLevelDomain = 'example.net';
-
-            return substr(
-                $remoteHostName,
-                strlen($remoteHostName) - strlen($allowedTopLevelDomain)
-            ) == $allowedTopLevelDomain;
+        'allow_origin_callback' => function(ParsedUrlInterface $origin) {
+            // do some evaluation magic with origin ..
+            return true;
         },
     ]),
 ]));
 ```
 
-## Use custom response code on pre-flight requests (some legacy browsers choke on 204)
+## Use custom response code on pre-flight requests
 
-Thanks to [expressjs/cors#configuring-cors](https://github.com/expressjs/cors#configuring-cors)
+Some legacy browsers choke on 204. Thanks to [expressjs/cors#configuring-cors](https://github.com/expressjs/cors#configuring-cors) for that.
 
 ```php
 $server = new Server(new MiddlewareRunner([
