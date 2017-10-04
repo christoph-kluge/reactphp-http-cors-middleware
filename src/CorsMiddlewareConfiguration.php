@@ -28,13 +28,16 @@ class CorsMiddlewareConfiguration
 
     public function getServerOrigin()
     {
+        // @TODO: fixme up
         $origin = parse_url('http://api.my-cors.io:8001');
         return $origin;
     }
 
     public function getRequestCredentialsSupported()
     {
-        return (bool)$this->settings['allow_credentials'];
+        return is_bool($this->settings['allow_credentials'])
+            ? $this->settings['allow_credentials']
+            : false;
     }
 
     public function getRequestAllowedOrigins()

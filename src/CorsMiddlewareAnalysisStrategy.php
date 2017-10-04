@@ -31,7 +31,11 @@ class CorsMiddlewareAnalysisStrategy extends Settings
         if ($this->config->hasRequestAllowedOriginsCallback()) {
             $callback = $this->config->getRequestAllowedOriginsCallback();
 
-            return $callback($requestOrigin);
+            $return = $callback($requestOrigin);
+            if (is_bool($return)) {
+                return $return;
+            }
+            return false;
         }
 
         return parent::isRequestOriginAllowed($requestOrigin);
