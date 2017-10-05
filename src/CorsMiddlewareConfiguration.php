@@ -8,11 +8,11 @@ class CorsMiddlewareConfiguration
     protected $settings = [
         'response_code'         => 204, // Pre-Flight Status Code
         'allow_credentials'     => false,
-        'allow_origin'          => ['*'],
+        'allow_origin'          => [],
         'allow_origin_callback' => null,
-        'allow_methods'         => ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS'],
-        'allow_headers'         => ['DNT', 'X-Custom-Header', 'Keep-Alive', 'User-Agent', 'X-Requested-With', 'If-Modified-Since', 'Cache-Control', 'Content-Type', 'Content-Range', 'Range',],
-        'expose_headers'        => ['DNT', 'X-Custom-Header', 'Keep-Alive', 'User-Agent', 'X-Requested-With', 'If-Modified-Since', 'Cache-Control', 'Content-Type', 'Content-Range', 'Range',],
+        'allow_methods'         => ['GET', 'POST', 'OPTIONS'],
+        'allow_headers'         => [],
+        'expose_headers'        => [],
         'max_age'               => 60 * 60 * 24 * 20, // preflight request is valid for 20 days
     ];
 
