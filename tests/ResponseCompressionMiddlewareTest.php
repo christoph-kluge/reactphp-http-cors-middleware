@@ -56,6 +56,40 @@ class CorsMiddlewareTest extends TestCase
         $this->assertSame(401, $response->getStatusCode());
     }
 
+    public function testDefaultValuesShouldAllowRequest()
+    {
+        $request = new ServerRequest('GET', 'https://api.example.net/');
+        $response = new Response(200, ['Content-Type' => 'text/html'], 'Some response');
+
+        $middleware = new CorsMiddleware();
+
+        /** @var PromiseInterface $promise */
+        $promise = $middleware($request, $this->getNextCallback($response));
+        $this->assertInstanceOf('React\Promise\Promise', $promise);
+        $promise->then(function ($value) use (&$response) {
+            $response = $value;
+        });
+        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertSame(200, $response->getStatusCode());
+    }
+
+    public function testDefaultValuesShouldDenyCrossOrigin()
+    {
+        $request = new ServerRequest('OPTIONS', 'https://api.example.net/', [
+            'Origin'                         => 'https://www.example.net',
+            'Access-Control-Request-Method'  => 'GET',
+            'Access-Control-Request-Headers' => 'Authorization',
+        ]);
+        $response = new Response(200, ['Content-Type' => 'text/html'], 'Some response');
+
+        $middleware = new CorsMiddleware();
+
+        /** @var Response $response */
+        $response = $middleware($request, $this->getNextCallback($response));
+        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertSame(403, $response->getStatusCode());
+    }
+
     public function testRequestInvalidRequestHeaders()
     {
         $request = new ServerRequest('OPTIONS', 'https://api.example.net/', [
