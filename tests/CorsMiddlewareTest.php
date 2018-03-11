@@ -6,7 +6,7 @@ use Neomerx\Cors\Contracts\Http\ParsedUrlInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
-use React\Http\ServerRequest;
+use React\Http\Io\ServerRequest;
 use React\Promise\Promise;
 use React\Promise\PromiseInterface;
 

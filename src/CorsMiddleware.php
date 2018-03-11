@@ -5,8 +5,10 @@ namespace Sikei\React\Http\Middleware;
 use Neomerx\Cors\Analyzer;
 use Neomerx\Cors\Contracts\AnalysisResultInterface;
 use Neomerx\Cors\Contracts\AnalyzerInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
+use function React\Promise\resolve;
 use Sikei\React\Http\Middleware\CorsMiddlewareAnalysisStrategy as Strategy;
 use Sikei\React\Http\Middleware\CorsMiddlewareConfiguration as Config;
 
@@ -47,7 +49,7 @@ final class CorsMiddleware
                 return new Response(405, [], 'Method not supported');
         }
 
-        return $next($request)->then(function (Response $response) use ($cors) {
+        return resolve($next($request))->then(function (ResponseInterface $response) use ($cors) {
             foreach ($cors->getResponseHeaders() as $header => $value) {
                 $response = $response->withHeader($header, $value);
             }
