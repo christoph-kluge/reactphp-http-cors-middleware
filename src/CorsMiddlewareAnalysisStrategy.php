@@ -15,9 +15,15 @@ class CorsMiddlewareAnalysisStrategy extends Settings
         parent::__construct();
 
         $this->config = $config;
+
+        $serverOrigin = $this->getServerOrigin();
+        if (!empty($serverOrigin)) {
+            $this
+                ->setCheckHost(true)
+                ->setServerOrigin($serverOrigin);
+        }
+
         $this
-//            ->setCheckHost(true)
-//            ->setServerOrigin($this->config->getServerOrigin())
             ->setRequestCredentialsSupported($this->config->getRequestCredentialsSupported())
             ->setRequestAllowedOrigins($this->config->getRequestAllowedOrigins())
             ->setRequestAllowedMethods($this->config->getRequestAllowedMethods())

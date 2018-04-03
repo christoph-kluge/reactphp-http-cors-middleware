@@ -58,10 +58,12 @@ class CorsMiddlewareTest extends TestCase
 
     public function testDefaultValuesShouldAllowRequest()
     {
-        $request = new ServerRequest('GET', 'https://api.example.net/');
+        $request = new ServerRequest('GET', 'https://api.example.net/', [
+            'Origin' => 'https://api.example.net/'
+        ]);
         $response = new Response(200, ['Content-Type' => 'text/html'], 'Some response');
 
-        $middleware = new CorsMiddleware();
+        $middleware = new CorsMiddleware(['server_url' => 'https://api.example.net/']);
 
         /** @var PromiseInterface $promise */
         $promise = $middleware($request, $this->getNextCallback($response));

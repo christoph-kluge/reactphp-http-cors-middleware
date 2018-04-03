@@ -6,6 +6,7 @@ class CorsMiddlewareConfiguration
 {
 
     protected $settings = [
+        'server_url'            => null,
         'response_code'         => 204, // Pre-Flight Status Code
         'allow_credentials'     => false,
         'allow_origin'          => [],
@@ -16,9 +17,18 @@ class CorsMiddlewareConfiguration
         'max_age'               => 60 * 60 * 24 * 20, // preflight request is valid for 20 days
     ];
 
+    protected $serverOrigin = [];
+
     public function __construct(array $settings = [])
     {
         $this->settings = array_merge($this->settings, $settings);
+
+        if (!is_null($this->settings['server_url'])) {
+            $this->serverOrigin = parse_url($this->settings['server_url']);
+            if (count(array_diff_key(['scheme' => '', 'host' => ''], $this->serverOrigin)) > 0) {
+                throw new \InvalidArgumentException('Option "server_url" requires at least scheme and domain');
+            }
+        }
     }
 
     public function getPreFlightResponseCode()
@@ -28,9 +38,7 @@ class CorsMiddlewareConfiguration
 
     public function getServerOrigin()
     {
-        // @TODO: fixme up
-        $origin = parse_url('http://api.my-cors.io:8001');
-        return $origin;
+        return $this->serverOrigin;
     }
 
     public function getRequestCredentialsSupported()
