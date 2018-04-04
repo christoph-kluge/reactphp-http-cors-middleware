@@ -20,12 +20,12 @@ This middleware will detect CORS requests and will intercept the request if ther
 # Usage
 
 ```php
-$server = new Server(new MiddlewareRunner([
+$server = new Server([
     new CorsMiddleware(),
     function (ServerRequestInterface $request, callable $next) {
         return new Response(200, ['Content-Type' => 'text/html'], 'We test CORS');
     },
-]));
+]);
 ```
 
 # Configuration
@@ -61,7 +61,7 @@ $settings = [
 ## Allow specific origins (Origin requires scheme, host and optionally port)
 
 ```php
-$server = new Server(new MiddlewareRunner([
+$server = new Server([
     new CorsMiddleware([
         'allow_origin' => [
             'http://www.example.net',
@@ -69,13 +69,13 @@ $server = new Server(new MiddlewareRunner([
             'http://www.example.net:8443',
         ],
     ]),
-]));
+]);
 ```
 
 ## Allow origins on a per-request base (callback)
 
 ```php
-$server = new Server(new MiddlewareRunner([
+$server = new Server([
     new CorsMiddleware([
         'allow_origin'          => [],
         'allow_origin_callback' => function(ParsedUrlInterface $origin) {
@@ -83,7 +83,7 @@ $server = new Server(new MiddlewareRunner([
             return true;
         },
     ]),
-]));
+]);
 ```
 
 ## Use custom response code on pre-flight requests
@@ -91,11 +91,11 @@ $server = new Server(new MiddlewareRunner([
 Some legacy browsers choke on 204. Thanks to [expressjs/cors#configuring-cors](https://github.com/expressjs/cors#configuring-cors) for that.
 
 ```php
-$server = new Server(new MiddlewareRunner([
+$server = new Server([
     new CorsMiddleware([
         'response_code' => 200,
     ]),
-]));
+]);
 ```
 
 # License
