@@ -4,14 +4,13 @@ use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Factory;
 use React\Http\Response;
 use React\Http\Server;
-use React\Http\MiddlewareRunner;
 use Sikei\React\Http\Middleware\CorsMiddleware;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 $loop = Factory::create();
 
-$server = new Server(new MiddlewareRunner([
+$server = new Server([
     new CorsMiddleware(),
     function (ServerRequestInterface $request, callable $next) {
         return new Response(200, ['Content-Type' => 'application/json'], json_encode([
@@ -19,7 +18,7 @@ $server = new Server(new MiddlewareRunner([
             'json' => 'values',
         ]));
     },
-]));
+]);
 
 $socket = new \React\Socket\Server(isset($argv[1]) ? $argv[1] : '0.0.0.0:0', $loop);
 $server->listen($socket);
