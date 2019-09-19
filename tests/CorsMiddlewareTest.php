@@ -73,6 +73,21 @@ class CorsMiddlewareTest extends TestCase
         $this->assertSame(200, $response->getStatusCode());
     }
 
+    public function testWrongHostShouldDenyRequest()
+    {
+        $request = new ServerRequest('GET', 'https://api.example.org/', [
+            'Origin' => 'https://api.example.net/'
+        ]);
+        $response = new Response(200, ['Content-Type' => 'text/html'], 'Some response');
+
+        $middleware = new CorsMiddleware(['server_url' => 'https://api.example.net/']);
+
+        /** @var PromiseInterface $promise */
+        $response = $middleware($request, $this->getNextCallback($response));
+        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertSame(400, $response->getStatusCode());
+    }
+
     public function testDefaultValuesShouldDenyCrossOrigin()
     {
         $request = new ServerRequest('OPTIONS', 'https://api.example.net/', [
