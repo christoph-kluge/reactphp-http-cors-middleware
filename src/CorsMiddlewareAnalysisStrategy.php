@@ -16,7 +16,7 @@ class CorsMiddlewareAnalysisStrategy extends Settings
 
         $this->config = $config;
 
-        $serverOrigin = $this->getServerOrigin();
+        $serverOrigin = $this->config->getServerOrigin();
         if (!empty($serverOrigin)) {
             $this
                 ->setCheckHost(true)
