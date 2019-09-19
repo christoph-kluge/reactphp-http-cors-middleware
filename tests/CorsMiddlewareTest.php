@@ -34,25 +34,23 @@ class CorsMiddlewareTest extends TestCase
 
     public function testNoHostHeaderResponse()
     {
-        $this->markTestSkipped('Not yet implemented');
-
         $request = new ServerRequest('OPTIONS', 'https://api.example.net/', [
             'Origin'                         => 'https://www.example.net',
             'Access-Control-Request-Method'  => 'GET',
             'Access-Control-Request-Headers' => 'Authorization',
         ]);
         $request = $request->withoutHeader('Host');
+
         $response = new Response(200, ['Content-Type' => 'text/html'], 'Some response');
 
         $middleware = new CorsMiddleware([
             'allow_origin'  => '*',
-            'allow_methods' => ['OPTIONS'],
+            'allow_methods' => ['GET'],
         ]);
 
         /** @var Response $result */
         $response = $middleware($request, $this->getNextCallback($response));
         $this->assertInstanceOf('React\Http\Response', $response);
-
         $this->assertSame(401, $response->getStatusCode());
     }
 
