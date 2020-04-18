@@ -24,12 +24,12 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var PromiseInterface $result */
         $result = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Promise\Promise', $result);
+        $this->assertInstanceOf(Promise::class, $result);
 
         $result->then(function ($value) use (&$response) {
             $response = $value;
         });
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
     }
 
     public function testNoHostHeaderResponse()
@@ -50,7 +50,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $result */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(401, $response->getStatusCode());
     }
 
@@ -65,11 +65,11 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var PromiseInterface $promise */
         $promise = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Promise\Promise', $promise);
+        $this->assertInstanceOf(Promise::class, $promise);
         $promise->then(function ($value) use (&$response) {
             $response = $value;
         });
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(200, $response->getStatusCode());
     }
 
@@ -84,7 +84,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var PromiseInterface $promise */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(400, $response->getStatusCode());
     }
 
@@ -101,7 +101,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(403, $response->getStatusCode());
     }
 
@@ -122,7 +122,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(401, $response->getStatusCode());
     }
 
@@ -143,7 +143,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(204, $response->getStatusCode());
     }
 
@@ -162,7 +162,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(405, $response->getStatusCode());
     }
 
@@ -181,7 +181,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(204, $response->getStatusCode());
     }
 
@@ -202,7 +202,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(403, $response->getStatusCode());
     }
 
@@ -223,7 +223,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(204, $response->getStatusCode());
     }
 
@@ -244,7 +244,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(204, $response->getStatusCode());
 
         // -- test wildcard as array
@@ -256,7 +256,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(204, $response->getStatusCode());
     }
 
@@ -280,7 +280,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(204, $response->getStatusCode());
     }
 
@@ -302,7 +302,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(403, $response->getStatusCode());
     }
 
@@ -324,7 +324,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(403, $response->getStatusCode());
     }
 
@@ -344,7 +344,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(204, $response->getStatusCode());
         $this->assertTrue($response->hasHeader('Access-Control-Max-Age'));
         $this->assertSame((string)3600, $response->getHeaderLine('Access-Control-Max-Age'));
@@ -366,7 +366,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(204, $response->getStatusCode());
         $this->assertTrue($response->hasHeader('Access-Control-Allow-Credentials'));
         $this->assertSame('true', strtolower($response->getHeaderLine('Access-Control-Allow-Credentials')));
@@ -388,7 +388,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(204, $response->getStatusCode());
         $this->assertFalse($response->hasHeader('Access-Control-Allow-Credentials'));
     }
@@ -409,7 +409,7 @@ class CorsMiddlewareTest extends TestCase
 
         /** @var Response $response */
         $response = $middleware($request, $this->getNextCallback($response));
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(204, $response->getStatusCode());
         $this->assertFalse($response->hasHeader('Access-Control-Allow-Credentials'));
     }
@@ -434,7 +434,7 @@ class CorsMiddlewareTest extends TestCase
         $result->then(function ($value) use (&$response) {
             $response = $value;
         });
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
 
         $this->assertFalse($response->hasHeader('Access-Control-Expose-Headers'));
     }
@@ -458,7 +458,7 @@ class CorsMiddlewareTest extends TestCase
         $result->then(function ($value) use (&$response) {
             $response = $value;
         });
-        $this->assertInstanceOf('React\Http\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
 
         $this->assertTrue($response->hasHeader('Access-Control-Expose-Headers'));
         $this->assertContains('X-Custom-Header', $response->getHeaderLine('Access-Control-Expose-Headers'));
