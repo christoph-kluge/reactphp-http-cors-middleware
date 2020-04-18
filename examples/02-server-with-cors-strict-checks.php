@@ -11,7 +11,7 @@ require __DIR__ . '/../vendor/autoload.php';
 $loop = Factory::create();
 
 $server = new Server([
-    new CorsMiddleware(),
+    new CorsMiddleware(['server_url' => 'http://api.example.net:8080']),
     function (ServerRequestInterface $request) {
         return new Response(200, ['Content-Type' => 'application/json'], json_encode([
             'some' => 'nice',
@@ -20,7 +20,7 @@ $server = new Server([
     },
 ]);
 
-$socket = new \React\Socket\Server(isset($argv[1]) ? $argv[1] : '0.0.0.0:0', $loop);
+$socket = new \React\Socket\Server(isset($argv[1]) ? $argv[1] : '0.0.0.0:8080', $loop);
 $server->listen($socket);
 
 echo 'Listening on ' . str_replace('tcp:', 'http:', $socket->getAddress()) . PHP_EOL;
