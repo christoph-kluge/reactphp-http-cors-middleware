@@ -36,6 +36,7 @@ The defaults for this middleware are mainly taken from [enable-cors.org](https:/
 
 Thanks to [expressjs/cors#configuring-cors](https://github.com/expressjs/cors#configuring-cors). As I took most configuration descriptions from there.
 
+* `server_url`: can be used to set enable strict `Host` header checks to avoid malicious use of our server. (default: `null`) 
 * `response_code`: can be used to set the HTTP-StatusCode on a successful `OPTIONS` / Pre-Flight-Request (default: `204`)
 * `allow_credentials`: Configures the `Access-Control-Allow-Credentials` CORS header. Expects an boolean (ex: `true` // to set the header)
 * `allow_origin`: Configures the `Access-Control-Allow-Origin` CORS header. Expects an array (ex: `['http://example.net', 'https://example.net']`).
@@ -94,6 +95,22 @@ Some legacy browsers choke on 204. Thanks to [expressjs/cors#configuring-cors](h
 $server = new Server([
     new CorsMiddleware([
         'response_code' => 200,
+    ]),
+]);
+```
+
+## Use strict host checking
+
+The default handling of this middleware will allow any "Host"-header. This means that you can use your server with
+any hostname you want. This might be a desired behavior but allows also the misuse of your server.
+
+To prevent such a behavior there is a `server_url` option which will enable strict host checking. In this scenario
+the server will return a `403` with the body `Origin not allowed`. 
+
+```php
+$server = new Server([
+    new CorsMiddleware([
+        'server_url' => 'http://api.example.net:8080'
     ]),
 ]);
 ```
