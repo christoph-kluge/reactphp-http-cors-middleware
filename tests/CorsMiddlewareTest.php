@@ -5,8 +5,8 @@ namespace Sikei\React\Http\Middleware;
 use Neomerx\Cors\Contracts\Http\ParsedUrlInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use React\Http\Response;
-use React\Http\Io\ServerRequest;
+use React\Http\Message\Response;
+use React\Http\Message\ServerRequest;
 use React\Promise\Promise;
 use React\Promise\PromiseInterface;
 

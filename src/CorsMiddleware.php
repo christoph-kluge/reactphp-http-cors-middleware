@@ -7,7 +7,7 @@ use Neomerx\Cors\Contracts\AnalysisResultInterface;
 use Neomerx\Cors\Contracts\AnalyzerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use React\Http\Response;
+use React\Http\Message\Response;
 use function React\Promise\resolve;
 use Sikei\React\Http\Middleware\CorsMiddlewareAnalysisStrategy as Strategy;
 use Sikei\React\Http\Middleware\CorsMiddlewareConfiguration as Config;
