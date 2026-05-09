@@ -2,7 +2,6 @@
 
 namespace Sikei\React\Http\Middleware;
 
-use Neomerx\Cors\Contracts\Http\ParsedUrlInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
@@ -272,7 +271,7 @@ class CorsMiddlewareTest extends TestCase
 
         $middleware = new CorsMiddleware([
             'allow_origin'          => [],
-            'allow_origin_callback' => function (ParsedUrlInterface $parsedUrl) {
+            'allow_origin_callback' => function (string $parsedUrl) {
                 return true;
             },
             'allow_methods'         => ['GET', 'OPTIONS'],
@@ -294,7 +293,7 @@ class CorsMiddlewareTest extends TestCase
 
         $middleware = new CorsMiddleware([
             'allow_origin'          => [],
-            'allow_origin_callback' => function (ParsedUrlInterface $parsedUrl) {
+            'allow_origin_callback' => function (string $parsedUrl) {
                 return false;
             },
             'allow_methods'         => ['GET', 'OPTIONS'],
@@ -316,7 +315,7 @@ class CorsMiddlewareTest extends TestCase
 
         $middleware = new CorsMiddleware([
             'allow_origin'          => [],
-            'allow_origin_callback' => function (ParsedUrlInterface $parsedUrl) {
+            'allow_origin_callback' => function (string $parsedUrl) {
                 return null;
             },
             'allow_methods'         => ['GET', 'OPTIONS'],
@@ -461,8 +460,8 @@ class CorsMiddlewareTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
 
         $this->assertTrue($response->hasHeader('Access-Control-Expose-Headers'));
-        $this->assertContains('X-Custom-Header', $response->getHeaderLine('Access-Control-Expose-Headers'));
-        $this->assertContains('X-Custom-Header-2', $response->getHeaderLine('Access-Control-Expose-Headers'));
+        $this->assertStringContainsString('X-Custom-Header', $response->getHeaderLine('Access-Control-Expose-Headers'));
+        $this->assertStringContainsString('X-Custom-Header-2', $response->getHeaderLine('Access-Control-Expose-Headers'));
     }
 
     public function getNextCallback(Response $response)
