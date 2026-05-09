@@ -2,37 +2,46 @@
 
 namespace Sikei\React\Http\Middleware;
 
-use Neomerx\Cors\Contracts\Http\ParsedUrlInterface;
 use Neomerx\Cors\Strategies\Settings;
 
 class CorsMiddlewareAnalysisStrategy extends Settings
 {
 
-    protected $config;
-
-    public function __construct(CorsMiddlewareConfiguration $config = null)
-    {
-        parent::__construct();
-
+    public function __construct(
+        private ?CorsMiddlewareConfiguration $config = null,
+    ) {
         $this->config = $config;
 
         $serverOrigin = $this->config->getServerOrigin();
         if (!empty($serverOrigin)) {
-            $this
-                ->setCheckHost(true)
-                ->setServerOrigin($serverOrigin);
+            $scheme = $serverOrigin['scheme'] ?? 'http';
+            $host   = $serverOrigin['host'] ?? 'localhost';
+            $port   = (int) ($serverOrigin['port'] ?? ($scheme === 'https' ? 443 : 80));
+            $this->init($scheme, $host, $port);
+            $this->enableCheckHost();
+        } else {
+            $this->init('http', 'localhost', 80);
         }
 
-        $this
-            ->setRequestCredentialsSupported($this->config->getRequestCredentialsSupported())
-            ->setRequestAllowedOrigins($this->config->getRequestAllowedOrigins())
-            ->setRequestAllowedMethods($this->config->getRequestAllowedMethods())
-            ->setRequestAllowedHeaders($this->config->getRequestAllowedHeaders())
-            ->setResponseExposedHeaders($this->config->getResponseExposedHeaders())
-            ->setPreFlightCacheMaxAge($this->config->getPreFlightCacheMaxAge());
+        if ($this->config->getRequestCredentialsSupported()) {
+            $this->setCredentialsSupported();
+        }
+
+        $allowedOrigins = $this->config->getRequestAllowedOrigins();
+        $originList     = array_keys($allowedOrigins);
+        if (in_array('*', $originList, true)) {
+            $this->enableAllOriginsAllowed();
+        } else {
+            $this->setAllowedOrigins($originList);
+        }
+
+        $this->setAllowedMethods(array_keys($this->config->getRequestAllowedMethods()));
+        $this->setAllowedHeaders(array_keys($this->config->getRequestAllowedHeaders()));
+        $this->setExposedHeaders(array_keys($this->config->getResponseExposedHeaders()));
+        $this->setPreFlightCacheMaxAge($this->config->getPreFlightCacheMaxAge());
     }
 
-    public function isRequestOriginAllowed(ParsedUrlInterface $requestOrigin)
+    public function isRequestOriginAllowed(string $requestOrigin): bool
     {
         if ($this->config->hasRequestAllowedOriginsCallback()) {
             $callback = $this->config->getRequestAllowedOriginsCallback();
