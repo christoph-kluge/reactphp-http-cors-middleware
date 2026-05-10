@@ -8,10 +8,8 @@ class CorsMiddlewareAnalysisStrategy extends Settings
 {
 
     public function __construct(
-        private ?CorsMiddlewareConfiguration $config = null,
+        protected CorsMiddlewareConfiguration $config,
     ) {
-        $this->config = $config;
-
         $serverOrigin = $this->config->getServerOrigin();
         if (!empty($serverOrigin)) {
             $scheme = $serverOrigin['scheme'] ?? 'http';
